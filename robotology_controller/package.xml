@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!-- <package format="2"> -->
+<package>
+    <!-- mandatory header for a Catkin package -->
+    <name> robotology_controller </name>
+    <version> 0.0.1 </version>
+    <description> ROS_control implementation for robotology msgs compliant robots.  </description>
+
+    <maintainer email="alberto.cardellino@iit.it"> Alberto Cardellino </maintainer>
+    <license>TODO</license>
+
+    <!-- optional fields -->
+    <author email="alberto.cardellino@iit.it"> Alberto Cardellino </author>
+
+    <url> TODO </url>
+    <url type="repository"> TODO </url>
+    <url type="bugtracker"> TODO </url>
+
+    <!-- build and run info -->
+
+    <build_depend>roscpp</build_depend>
+    <build_depend>controller_manager</build_depend>
+
+    <build_depend>std_msgs</build_depend>
+    <build_depend>robotology_msgs</build_depend>
+    <build_depend>message_generation</build_depend>
+
+    <run_depend>roscpp</run_depend>
+    <run_depend>std_msgs</run_depend>
+    <run_depend>message_runtime</run_depend>
+    <run_depend>robotology_msgs</run_depend>
+
+    <buildtool_depend>catkin</buildtool_depend>
+
+</package>
