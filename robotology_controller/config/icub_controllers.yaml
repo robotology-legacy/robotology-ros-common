@@ -1,0 +1,41 @@
+robot:
+  # Publish all joint states -----------------------------------
+
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50
+
+  trajectory_controller_test:
+    type: position_controllers/JointTrajectoryController
+    publish_rate: 50
+    joints:
+      - neck_pitch
+      - neck_yaw
+      - l_shoulder_pitch
+      - l_shoulder_roll
+      - l_shoulder_yaw
+      - l_elbow
+
+    gains:
+      neck_pitch:         {p: 2000.0, i: 0.01, d: 0.1}
+      neck_yaw:           {p: 2000.0, i: 0.01, d: 0.1}
+    constraints:
+      # goal_time: 0.6
+      neck_pitch:
+        goal: 0.1
+      neck_yaw:
+        goal: 0.1
+
+  trajectory_controller_test_2:
+    type: effort_controllers/JointTrajectoryController
+    publish_rate: 50
+    joints:
+      - torso_pitch
+      - torso_roll
+      - torso_yaw
+    gains:
+      torso_pitch:     {p: 50.0, i: 0.01, d: 0.1}
+      torso_roll:      {p: 50.0, i: 0.01, d: 0.1}
+      torso_yaw:       {p: 50.0, i: 0.01, d: 0.1}
+
+

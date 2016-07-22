@@ -1,0 +1,16 @@
+<launch>
+    <rosparam command="load" file="$(find robotology_controller)/config/cer_controllers.yaml" />
+
+    <node name="cerControllerManager" pkg="robotology_controller" type="robotology_controller"
+    	  respawn="false"
+		  output="screen"
+		  args="load right_arm_controller left_arm_controller"/> 
+
+	<node pkg="rosservice" type="rosservice" name="load_controller" 
+		  args="call /controller_manager/load_controller right_arm_controller"/>
+
+	<node pkg="rosservice" type="rosservice" name="run_controller" 
+		args="call /controller_manager/switch_controller '{start_controllers: ['right_arm_controller'] }'" />
+
+    <node name="cer_rqt" pkg="rqt_gui" type="rqt_gui" respawn="false" output="screen"/>
+</launch>

@@ -1,0 +1,16 @@
+controller_list:
+  - name: left_arm_controller
+    joints:
+      - l_shoulder_pitch_joint
+      - l_shoulder_roll_joint
+      - l_shoulder_yaw_joint
+      - l_elbow_joint
+      - l_wrist_pronosupination_joint
+      - l_wrist_heave_eq_joint
+
+  - name: torso_controller
+    joints:
+      - torso_pitch_eq_joint
+      - torso_roll_eq_joint
+      - torso_yaw_joint
+      - torso_heave_eq_joint

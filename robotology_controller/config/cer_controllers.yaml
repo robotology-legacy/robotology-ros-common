@@ -1,0 +1,60 @@
+#robot:
+  # Publish all joint states -----------------------------------
+
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50
+
+  left_arm_controller:
+    type: position_controllers/JointTrajectoryController
+    publish_rate: 50
+    joints:
+      - neck_pitch_joint
+      - neck_yaw_joint
+      - l_shoulder_pitch_joint
+      - l_shoulder_roll_joint
+      - l_shoulder_yaw_joint
+      - l_elbow_joint
+      - l_wrist_pronosupination_joint
+      - l_wrist_heave_eq_joint
+    gains:
+      neck_pitch_joint:         {p: 2000.0, i: 0.01, d: 0.1}
+      neck_yaw_joint:           {p: 2000.0, i: 0.01, d: 0.1}
+      l_wrist_heave_eq_joint:   {p: 10.0,   i: 0.01, d: 0.01}
+    constraints:
+      # goal_time: 0.6
+      neck_pitch_joint:
+        goal: 0.1
+      neck_yaw_joint:
+        goal: 0.1
+
+  right_arm_controller:
+    type: position_controllers/JointTrajectoryController
+    publish_rate: 50
+    joints:
+     - r_elbow_joint 
+     - r_shoulder_pitch_joint 
+     - r_shoulder_roll_joint 
+     - r_shoulder_yaw_joint 
+     - r_wrist_heave_eq_joint 
+     - r_wrist_pitch_eq_joint 
+     - r_wrist_pronosupination_joint 
+     - r_wrist_roll_eq_joint
+    gains:
+      r_wrist_heave_eq_joint:   {p: 10.0,   i: 0.01, d: 0.01}
+
+  torso_torque_controller:
+    type: effort_controllers/JointTrajectoryController
+    publish_rate: 50
+    joints:
+      - torso_pitch_eq_joint
+      - torso_roll_eq_joint
+      - torso_yaw_joint
+      - torso_heave_eq_joint
+    gains:
+      torso_pitch_eq_joint:  {p: 50.0, i: 0.01, d: 0.1}
+      torso_roll_eq_joint:   {p: 50.0, i: 0.01, d: 0.1}
+      torso_yaw_joint:       {p: 50.0, i: 0.01, d: 0.1}
+      torso_heave_eq_joint:  {p: 50.0, i: 0.01, d: 0.1}
+
+
