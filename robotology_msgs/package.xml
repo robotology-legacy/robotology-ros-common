@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package>
+  <name> robotology_msgs </name>
+  <version>0.0.1</version>
+  <description> The package containing the msgs required to interact with robots compiant with YARP 
+                robotology standard interfaces.
+  </description>
+
+  <maintainer email="alberto.cardellino@iit.it"> Alberto Cardellino </maintainer>
+  
+  <author email="alberto.cardellino@iit.it"> Alberto Cardellino </author>
+
+  <license>GPL 2.0</license>
+  
+  <url> http://www.yarp.it/ </url>
+  <url type="repository"> https://github.com/robotology/yarp </url>
+  <url type="bugtracker"> https://github.com/robotology/yarp/issues </url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>message_generation</build_depend>
+  <build_depend>std_msgs</build_depend>
+
+  <run_depend>message_runtime</run_depend>
+  <run_depend>std_msgs</run_depend>
+
+</package>

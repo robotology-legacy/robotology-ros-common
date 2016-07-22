@@ -1,0 +1,19 @@
+# Reference types
+int32 POSITION_MODE=1
+int32 VELOCITY_MODE=2
+int32 TORQUE_MODE=3
+
+# Standard ROS msg header
+#Header header
+
+# All fields must have the same size of joint names.
+# Optional fileds must either be missing or same size.
+
+# Mandatory
+#string[]  names
+
+
+#int64[] controlmode
+int64 test
+---
+bool success
