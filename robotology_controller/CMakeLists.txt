@@ -21,3 +21,5 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${catkin_INCLUDE_DIRS})
 add_executable(${PROJECT_NAME} robotology_controller.cpp)
 target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES})
 
+add_executable(service service.cpp)
+target_link_libraries(service ${catkin_LIBRARIES})
