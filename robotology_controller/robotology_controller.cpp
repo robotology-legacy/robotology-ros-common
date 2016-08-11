@@ -34,6 +34,12 @@ public:
         controlModeMap["velocity_controllers/JointTrajectoryController"] = robotology_msgs::controlBoardMsg::VELOCITY_CMD;
         controlModeMap["effort_controllers/JointTrajectoryController"]   = robotology_msgs::controlBoardMsg::TORQUE_CMD;
 
+#if (hardware_interface_VERSION_MAJOR == 0) && (hardware_interface_VERSION_MINOR <= 9)
+    printf("OLD hardware_interface_VERSION: indigo or older\n");
+#else
+    printf("NEW hardware_interface_VERSION: jade onward\n");
+#endif
+
     }
 
 //     bool canSwitch(const std::list<hardware_interface::ControllerInfo>& start_list,
@@ -154,6 +160,10 @@ public:
                        const std::list<hardware_interface::ControllerInfo>& stop_list)
     {
 
+#if (hardware_interface_VERSION_MAJOR == 0) && (hardware_interface_VERSION_MINOR <= 9)
+  printf("indigo hardware_interface_VERSION was found\n");
+
+
         std::cout << "Start list" << std::endl;
         std::vector<std::pair<std::string, int> >newControl_map;
         std::map<std::string, int>::iterator it_modeMap;
@@ -204,6 +214,65 @@ public:
         }
 
         return canSwitch(start_list, stop_list);
+#else
+    printf("jade onward hardware_interface_VERSION was found\n");
+    std::cout << "Start list" << std::endl;
+    std::vector<std::pair<std::string, int> >newControl_map;
+    std::map<std::string, int>::iterator it_modeMap;
+
+    // for all controllers
+    for (std::list<hardware_interface::ControllerInfo>::const_iterator it_control=start_list.begin(); it_control != start_list.end(); ++it_control)
+    {
+        for (std::vector<hardware_interface::InterfaceResources>::const_iterator it=it_control->claimed_resources.begin(); it != it_control->claimed_resources.end(); ++it)
+        {
+            // for each resource (joint) required by the controller
+            std::cout << "\t"<< it_control->name << "; type "<< it_control->type << "; interface "<< it->hardware_interface << std::endl;
+            for (std::set<std::string>::iterator it_set=it->resources.begin(); it_set != it->resources.end(); ++it_set)
+            {
+                if( (it_modeMap = controlModeMap.find(it_control->type)) != controlModeMap.end())
+                {
+                    std::cout << ' ' << *it_set << "; type code is "<< controlModeMap.at(it_control->type) << std::endl;
+                }
+                else
+                {
+                    ROS_ERROR_NAMED(APPLICATION_NAME, "Desired controler type %s is not supported yet by this hardware interface", it_control->type.c_str());
+                    return false;
+                }
+
+                newControl_map.push_back(std::make_pair<std::string, int>(*it_set, controlModeMap.at(it_control->type)));
+            }
+        }
+    }
+
+    controlledJoints.insert(controlledJoints.end(), newControl_map.begin(), newControl_map.end());
+
+
+    // for all controllers
+    std::cout << "Stop list" << std::endl;
+    for (std::list<hardware_interface::ControllerInfo>::const_iterator it_control=start_list.begin(); it_control != start_list.end(); ++it_control)
+    {
+        for (std::vector<hardware_interface::InterfaceResources>::const_iterator it=it_control->claimed_resources.begin(); it != it_control->claimed_resources.end(); ++it)
+        {
+            // for each resource (joint) required by the controller
+            std::cout << "\t"<< it_control->name << "; type "<< it_control->type << "; interface "<< it->hardware_interface << std::endl;
+            for (std::set<std::string>::iterator it_set=it->resources.begin(); it_set != it->resources.end(); ++it_set)
+            {
+                // search for it into the current controlled joints list and remove it.
+                for(int i = 0; i != controlledJoints.size(); i++)
+                {
+                    std::cout << "i " << i << "; controlledJoint " << controlledJoints[i].first << "; *it_set " << *it_set << std::endl;
+                    if(controlledJoints[i].first == *it_set)
+                    {
+                        std::cout << "Removing joint " << controlledJoints[i].first << std::endl;
+                        controlledJoints.erase(controlledJoints.begin() + i);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    return true;
+#endif
     }
 
     bool read()
